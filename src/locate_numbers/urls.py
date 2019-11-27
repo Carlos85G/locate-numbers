@@ -4,5 +4,5 @@ from .views import index
 
 urlpatterns = [
     # Patrón usando regex para permitir el uso o desuso de trailing slash
-    re_path(r'^/?$', index),
+    re_path(r'^/?$', index, name='index'),
 ]
