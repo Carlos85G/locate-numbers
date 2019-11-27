@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Función excenta de revisión CSRF para respuesta
 @csrf_exempt
-def helloWorld(request):
+def index(request):
     if request.method == "POST":
         return HttpResponse('Es una petición POST')
 
