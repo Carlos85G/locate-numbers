@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def index(request):
     if request.method == "POST":
-        return HttpResponse('Es una petición POST')
+        return HttpResponse('Es una petición POST\nY ésta es otra línea')
 
     # Petición GET predeterminada
-    return HttpResponse('Hola, Mundo ;)')
+    return HttpResponse('<b>Hola, Mundo ;)</b>')
