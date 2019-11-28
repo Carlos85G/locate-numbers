@@ -11,6 +11,8 @@ import codecs
 # Function exempt from CSRF verification for CURL access
 @csrf_exempt
 def index(request):
+    # Field names for future use
+    fieldnames = ["numbers", "valid", "origin",]
 
     # Callable to process the phone number line
     def evaluate_line(line):
@@ -29,8 +31,12 @@ def index(request):
             is_valid = False
             raise Exception("Error evaluating line: {}".format(e))
 
-        # Returl list of results
-        return [line, str(is_valid).lower(), origin,]
+        # Return dictionary of results
+        return {
+            "numbers":line,
+            "valid": str(is_valid).lower(),
+            "origin":origin
+        }
 
     if request.method == "POST":
         contents = "(Empty file)"
@@ -46,13 +52,23 @@ def index(request):
                 )
 
                 # Build the output
-                contents =  "numbers, valid, location\n" \
-                            + "\n".join(
-                                map(
-                                    lambda line: ", ".join(evaluate_line(line["numbers"])),
-                                    lines
-                                )
-                            )
+
+                results = list(
+                    map(
+                        lambda line: evaluate_line(line["numbers"]),
+                        lines
+                    )
+                )
+                # Build proper CSV data
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = 'attachment;filename=output.csv'
+
+                # Write to response
+                writer = csv.DictWriter(response, fieldnames)
+                writer.writerows(results)
+
+                # Return the CSV
+                return response
 
             except Exception as e:
                 # Error found. Inform user
