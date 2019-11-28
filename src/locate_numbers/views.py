@@ -74,8 +74,5 @@ def index(request):
                 # Error found. Inform user
                 return HttpResponseServerError("General error: {}".format(e))
 
-        # Return output as response
-        return HttpResponse(contents)
-
     # Default GET response
     return HttpResponse('Hello, there! This is the endpoint to check phone numbers, but the request method you used is not valid :\'(. Try sending your data through POST.')
