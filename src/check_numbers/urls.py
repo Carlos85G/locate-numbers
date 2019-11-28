@@ -14,11 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import re_path, path, include
 from locate_numbers import urls as ln_urls
+from .views import index
 
 urlpatterns = [
-    # No hacen falta los admins
+    # Admins are not used
     # path('admin/', admin.site.urls),
+    # RegEx pattern to allow optional use of the trailing slash
+    # with APPEND_SLASH as False
+    re_path(r'^/?$', index, name='locate_numbers_index'),
+    # Append app's URLs to main project
     path('locate_numbers', include("locate_numbers.urls")),
 ]

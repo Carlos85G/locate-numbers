@@ -3,6 +3,7 @@ from django.urls import path, re_path
 from .views import index
 
 urlpatterns = [
-    # Patrón usando regex para permitir el uso o desuso de trailing slash
-    re_path(r'^/?$', index, name='index'),
+    # RegEx pattern to allow optional use of the trailing slash
+    # with APPEND_SLASH as False
+    re_path(r'^/?$', index, name='locate_numbers_index'),
 ]
